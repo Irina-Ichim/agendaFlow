@@ -1,38 +1,173 @@
 .App {
   text-align: center;
+  background: linear-gradient(
+    to top,
+    var(--gradient-top) 30%,
+    var(--gradient-bottom) 70%
+  );
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App::before {
+  content: "";
+  position: absolute;
+  top: 100px;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+  transform: scaleY(2.3);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.sphere {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  perspective: 1000px;
+  cursor: pointer;
+  top: 15%;
+}
+
+.sphere-front,
+.sphere-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: transform 0.6s ease;
+}
+
+.sphere-front {
+  background: var(--background-overlay);
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15);
+}
+
+.sphere.flipped .sphere-front {
+  transform: rotateY(180deg);
+}
+.sphere-back {
+  background: rgba(0, 0, 0, 0.6);
+  border: 6px solid var(--white-overlay);
+  box-shadow: inset 0 0 10px var(--white-overlay),
+              0 10px 20px rgba(0, 0, 0, 0.15);
+  transform: rotateY(180deg);
+}
+
+.sphere.flipped .sphere-back {
+  transform: rotateY(0deg);
+}
+
+.sphere::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(10px);
+  animation: neonGlow 6s ease-in-out infinite;
+}
+
+.sphere::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  border-radius: 50%;
+  background: var(--background-overlay);
+  z-index: -2;
+  filter: blur(20px);
+}
+
+@keyframes neonGlow {
+  0% {
+    opacity: 0.7;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.7;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.sphere-image {
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.login-form h2 {
+  color: var(--text-color);
+  font-size: 2em;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.login-form input {
+  margin: 10px 0;
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  width: 80%;
+  background-color: var(--white-overlay);
+}
+
+.extra-options {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.forgot-password,
+.register {
+  font-family: "Playfair Display", serif;
+  background: none;
+  border: none;
+  color: #ffffff;
+  text-shadow: var(--text-shadow);
+  font-size: 1em;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 5px;
+}
+
+.forgot-password:hover,
+.register:hover {
+  text-decoration: underline;
 }
